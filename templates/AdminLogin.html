@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel='stylesheet prefetch' href='.././static/font.css'>
+<link href=".././static/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href=".././static/style.css">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>Admin Panel</title>
+ </head>
+
+<body>
+<div class="container">
+	<div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+			<center>
+                <br><br><br><br><br><br><br><br>
+                {% if error %}<p class=error><strong>Error:</strong> {{ error }} </p> {% endif %}
+				<form method="post" onSubmit="return validateForm();" enctype=multipart/form-data>
+					<div style="padding-bottom: 18px;font-size : 24px;">Login Information</div>
+					<div>
+						<input type="Username" id="_username" name="_username" style="width : 200px;" class="form-control" placeholder="Username"/>
+					</div>
+					<div style="padding-bottom: 10px;">
+						<input type="Password" id="_password" name="_password" style="width : 200px;" class="form-control" placeholder="Password"/>
+					</div>
+					<div>
+						<input name="submit" class="btn btn-lg btn-success" value="Login" type="submit"/>
+					</div>
+				</form>
+
+				<script type="text/javascript">
+					function validateForm() {
+						if (isEmpty(document.getElementById('_username').value.trim())) {
+						alert('Username is required!');
+						return false;
+						}
+						if (isEmpty(document.getElementById('_password').value.trim())) {
+						alert('Password is required!');
+						return false;
+						}
+						return true;
+					}
+					function isEmpty(str) { return (str.length === 0 || !str.trim()); }
+					
+				</script>
+			</center>
+        </div>
+    </div>
+</div>
+</body>
+</html>
