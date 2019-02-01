@@ -1,6 +1,7 @@
-import textract
-import LoadCVs
 import PyPDF2
+import textract
+
+import LoadCVs
 
 
 def parse_cvs():
@@ -60,4 +61,3 @@ def parse_cvs():
     # print(parsedCVs)
 
 # parse_cvs()
-

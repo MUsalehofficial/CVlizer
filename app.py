@@ -1,12 +1,11 @@
 import os
-import MySQLdb
+import warnings
 
+import MySQLdb
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from werkzeug.utils import secure_filename
 
-import warnings
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
-from gensim.summarization.summarizer import summarize
 
 import IndexFunctions
 
