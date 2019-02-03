@@ -55,7 +55,7 @@ def parse_cvs():
                 a = a.replace(b'\r', b' ')
                 b = str(a)
                 c = [b]
-                print(c)
+                # print(c)
                 parsedCVs.extend(c)
                 print("This is a *.DOC file: ", i)
             except Exception as e:
