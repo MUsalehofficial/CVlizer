@@ -1,24 +1,28 @@
 import glob
 import os
 
+os.chdir('./CVs')
 
-def loading_cvs():
-    os.chdir('CVs')
+
+def load_cvs():
     # Listing PDF
-    LIST_OF_FILES_PDF = []
-    for file in glob.glob('**/*.pdf', recursive=True):
-        LIST_OF_FILES_PDF.append(file)
+    PDFs = []
+    for file in glob.glob("**/*.pdf", recursive=True):
+        PDFs.append(file)
 
     # Listing DOCX
-    LIST_OF_FILES_DOCX = []
-    for file in glob.glob('**/*.docx', recursive=True):
-        LIST_OF_FILES_DOCX.append(file)
+    DOCXs = []
+    for file in glob.glob("**/*.docx", recursive=True):
+        DOCXs.append(file)
 
     # Listing DOC
-    LIST_OF_FILES_DOC = []
-    for file in glob.glob('**/*.doc', recursive=True):
-        LIST_OF_FILES_DOC.append(file)
+    DOCs = []
+    for file in glob.glob("**/*.doc", recursive=True):
+        DOCs.append(file)
 
     # Listing All
-    LIST_OF_FILES_ALL = LIST_OF_FILES_DOC + LIST_OF_FILES_DOCX + LIST_OF_FILES_PDF
-    return LIST_OF_FILES_ALL
+    ALL = PDFs + DOCXs + DOCs
+    print("All CVs has been loaded successfully!")
+    return ALL
+
+# cvList = load_cvs()
