@@ -85,3 +85,10 @@ def remove_stopwords(words):
         if w not in stops:
             filtered_sentence.append(w)
     return filtered_sentence
+
+def array_to_lowercase(array):
+    return list(map(lambda item: item.lower(), array))
+
+
+def decode_unicode_chars(str):
+    return unicodedata.normalize('NFD', str).encode('ascii', 'ignore')
