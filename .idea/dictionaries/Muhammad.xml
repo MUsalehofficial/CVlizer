@@ -2,13 +2,32 @@
   <dictionary name="Muhammad">
     <words>
       <w>acvas</w>
+      <w>barchart</w>
       <w>birthdate</w>
+      <w>darkblue</w>
+      <w>dcjq</w>
+      <w>dmbox</w>
       <w>docx</w>
+      <w>dropdown</w>
+      <w>flot</w>
       <w>fname</w>
+      <w>fontawesome</w>
       <w>gensim</w>
+      <w>goleft</w>
+      <w>goright</w>
+      <w>icheckbox</w>
+      <w>instagram</w>
       <w>lname</w>
+      <w>servicetitle</w>
+      <w>showback</w>
+      <w>soptify</w>
+      <w>spotify</w>
+      <w>terques</w>
       <w>textarea</w>
+      <w>todolist</w>
       <w>topnav</w>
+      <w>ullist</w>
+      <w>xchart</w>
     </words>
   </dictionary>
 </component>

@@ -116,14 +116,14 @@ def admin_dashboard():
         except:
             loggedInUser = 'Null'
 
-        # if request.method == 'POST':
-        #    _jobDescription = request.form['_jobDescription']
-        #    if len(_jobDescription) <= 100:
-        #        _jobDescription = _jobDescription
-        #    else:
-        #        _jobDescription = summarize(_jobDescription, word_count=100)
+        if request.method == 'POST':
+            _jobDescription = request.form['_jobDescription']
+            # if len(_jobDescription) <= 100:
+            #    _jobDescription = _jobDescription
+            # else:
+            #    _jobDescription = summarize(_jobDescription, word_count=100)
 
-        return render_template('AdminDashboard.html', loggedInUser=loggedInUser)
+        return render_template('test.html', loggedInUser=loggedInUser)
     else:
         return redirect(url_for('admin_login'))
 
