@@ -1,6 +1,7 @@
 import PyPDF2
 import textract
-
+import re
+from nltk.corpus import stopwords
 import LoadCVs
 
 
@@ -66,4 +67,28 @@ def parse_cvs():
     return parsedCVs
 
 
-# parse_cvs()
+def remove_punctuation(words):
+    """Remove punctuation from list of tokenized words"""
+    new_words = []
+    for word in words:
+        new_word = re.sub(r'[^\w\s]', '', word)
+        if new_word != '':
+            new_words.append(new_word)
+    return new_words
+
+
+def remove_stopwords(words):
+    stops = set(stopwords.words('english'))
+    # words=word_tokenize(sentence)
+    filtered_sentence = []
+    for w in words:
+        if w not in stops:
+            filtered_sentence.append(w)
+    return filtered_sentence
+
+def array_to_lowercase(array):
+    return list(map(lambda item: item.lower(), array))
+
+
+def decode_unicode_chars(str):
+    return unicodedata.normalize('NFD', str).encode('ascii', 'ignore')
