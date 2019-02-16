@@ -69,9 +69,11 @@ def done_upload():
 @app.route('/Admin/Login', methods=['GET', 'POST'])
 def admin_login():
     error = None
+    # loggedOrNot = 0
     # global currentUser
     # if request.form['_username'] in session:
     #    return redirect(url_for('admin_dashboard'))
+    admin_login.loggedOrNot = 0
     if request.method == 'POST':
         _username = request.form['_username']
         _password = request.form['_password']
@@ -94,9 +96,11 @@ def admin_login():
             # print(admin_login.currentUser)
             session['_username'] = _username
             # session['logged_in'] = True
+            admin_login.loggedOrNot = 1
+
             return redirect(url_for('admin_dashboard'))
             # print("Logged in successfully")
-    return render_template('AdminLogin.html', error=error)
+    return render_template('AdminLogin.html', error=error, loggedOrNot=admin_login.loggedOrNot)
 
 
 @app.route('/Admin/Logout', methods=['GET', 'POST'])
@@ -116,14 +120,14 @@ def admin_dashboard():
         except:
             loggedInUser = 'Null'
 
-        # if request.method == 'POST':
-        #    _jobDescription = request.form['_jobDescription']
-        #    if len(_jobDescription) <= 100:
-        #        _jobDescription = _jobDescription
-        #    else:
-        #        _jobDescription = summarize(_jobDescription, word_count=100)
+        if request.method == 'POST':
+            _jobDescription = request.form['_jobDescription']
+            # if len(_jobDescription) <= 100:
+            #    _jobDescription = _jobDescription
+            # else:
+            #    _jobDescription = summarize(_jobDescription, word_count=100)
 
-        return render_template('AdminDashboard.html', loggedInUser=loggedInUser)
+        return render_template('Dashboard/index.html', loggedInUser=loggedInUser)
     else:
         return redirect(url_for('admin_login'))
 

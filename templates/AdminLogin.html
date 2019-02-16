@@ -10,6 +10,7 @@
 </head>
 
 <body>
+{% if loggedOrNot == 0 %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8">
@@ -27,7 +28,8 @@
                                class="form-control" placeholder="Password"/>
                     </div>
                     <div>
-                        <input name="submit" class="btn btn-lg btn-success" value="Login" type="submit"/>
+                        <input style="background-color: #4ECDC4; border-color: #4ECDC4;" name="submit"
+                               class="btn btn-lg btn-success" value="Login" type="submit"/>
                     </div>
                 </form>
 
@@ -53,5 +55,9 @@
         </div>
     </div>
 </div>
+{% else %}
+    hahah
+{% endif %}
+
 </body>
 </html>
