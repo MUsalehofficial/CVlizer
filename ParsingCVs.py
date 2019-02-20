@@ -1,9 +1,10 @@
 import re
 import unicodedata
-
 import PyPDF2
 import textract
+
 from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
 
 import LoadCVs
 
@@ -109,6 +110,33 @@ def remove_stopwords(words):
         if w not in stops:
             filtered_sentence.append(w)
     return filtered_sentence
+
+
+def stem_words(words):
+    """Stem words from a list of tokenized words"""
+    stemmer = PorterStemmer()
+    list_words = []
+    for word in words:
+        stem = stemmer.stem(word)
+        list_words.append(stem)
+    return list_words
+
+
+def lem_verbs(words):
+    """Lemmatize verbs from a list of tokenized words"""
+    lemmatizer = WordNetLemmatizer()
+    new_words = []
+    for word in words:
+        new_word = lemmatizer.lemmatize(word, pos='v')
+        #print(new_word)
+        new_words.append(new_word)
+        #print(new_words)
+        #print(lemmatizer.lemmatize("cats"))
+    return new_words
+
+
+# aa = stem_words(['worked', 'played', 'running'])
+# print(aa)
 
 # p = decode_non_ascii(['ÈÀ', 'Æ', 'À'])
 # print(p)
