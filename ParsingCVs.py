@@ -90,7 +90,7 @@ def array_to_lowercase(words):
     """Convert all characters to lowercase from a list of tokenized words"""
     return list(map(lambda item: item.lower(), words))
 
-
+  
 def remove_punctuation(words):
     """Remove punctuation from a list of tokenized words"""
     new_words = []
