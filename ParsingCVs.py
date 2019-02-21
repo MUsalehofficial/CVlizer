@@ -1,13 +1,10 @@
-import re
-import unicodedata
 import PyPDF2
 import textract
-
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer, WordNetLemmatizer
-
+import os
+import string
+from nltk.tokenize import SpaceTokenizer
+from nltk.tokenize import word_tokenize
 import LoadCVs
-
 
 def parse_cvs():
     parsedCVs = []
@@ -53,9 +50,13 @@ def parse_cvs():
 
         if Temp[1] == "doc" or Temp[1] == "Doc" or Temp[1] == "DOC":
             try:
-                # cwd = os.getcwd()
-                # print(cwd)
+                cwd = os.getcwd()
+                # os.chdir('../CVs')
+                print(cwd)
                 a = textract.process(i)
+                cwd = os.getcwd()
+                # os.chdir('../CVs')
+                print(cwd)
                 a = a.replace(b'\n', b' ')
                 a = a.replace(b'\r', b' ')
                 b = str(a)
@@ -65,78 +66,32 @@ def parse_cvs():
                 print("This is a *.DOC file: ", i)
             except Exception as e:
                 print(e)
+    # This part for word tokenizing
+    try:
+        for m, i in enumerate(parsedCVs):
+            print(word_tokenize(parsedCVs[m]))
+
+
+    except Exception as error:
+
+        print('Caught this error: ' + repr(error))
+
+
+    # This part for joining again
+    try:
+
+        print(" ".join([" "+i if not i.startswith("'") and i not in string.punctuation else i for i in parsedCVs]).strip())
+
+
+    except Exception as error:
+
+        print('Caught this error: ' + repr(error))
+
+
 
     print("All CVs has been parsed successfully!")
     # print(parsedCVs)
     return parsedCVs
 
 
-"""
-def decode_unicode_chars(words):
-    return unicodedata.normalize('NFD', words).encode('ascii', 'ignore')
-"""
-
-
-def decode_non_ascii(words):
-    """Decode non-ASCII characters from a list of tokenized words"""
-    new_words = []
-    for w in words:
-        nw = unicodedata.normalize('NFD', w).encode('ascii', 'ignore')
-        new_words.append(nw)
-    return new_words
-
-
-def array_to_lowercase(words):
-    """Convert all characters to lowercase from a list of tokenized words"""
-    return list(map(lambda item: item.lower(), words))
-
-
-def remove_punctuation(words):
-    """Remove punctuation from a list of tokenized words"""
-    new_words = []
-    for word in words:
-        new_word = re.sub(r'[^\w\s]', '', word)
-        if new_word != '':
-            new_words.append(new_word)
-    return new_words
-
-
-def remove_stopwords(words):
-    """Remove stopwords from a list of tokenized words"""
-    stops = set(stopwords.words('english'))
-    # words=word_tokenize(sentence)
-    filtered_sentence = []
-    for w in words:
-        if w not in stops:
-            filtered_sentence.append(w)
-    return filtered_sentence
-
-
-def stem_words(words):
-    """Stem words from a list of tokenized words"""
-    stemmer = PorterStemmer()
-    list_words = []
-    for word in words:
-        stem = stemmer.stem(word)
-        list_words.append(stem)
-    return list_words
-
-
-def lem_verbs(words):
-    """Lemmatize verbs from a list of tokenized words"""
-    lemmatizer = WordNetLemmatizer()
-    new_words = []
-    for word in words:
-        new_word = lemmatizer.lemmatize(word, pos='v')
-        #print(new_word)
-        new_words.append(new_word)
-        #print(new_words)
-        #print(lemmatizer.lemmatize("cats"))
-    return new_words
-
-
-# aa = stem_words(['worked', 'played', 'running'])
-# print(aa)
-
-# p = decode_non_ascii(['ÈÀ', 'Æ', 'À'])
-# print(p)
+parse_cvs()
