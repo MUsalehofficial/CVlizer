@@ -1,8 +1,10 @@
 import re
 import unicodedata
+
 import PyPDF2
 import textract
-
+from autocorrect import spell
+from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 
@@ -65,8 +67,11 @@ def parse_cvs():
                 print("This is a *.DOC file: ", i)
             except Exception as e:
                 print(e)
-
     print("All CVs has been parsed successfully!")
+
+    # TODO: Word Tokenizing then Normalizing then Re-pack...
+
+
     # print(parsedCVs)
     return parsedCVs
 
@@ -122,21 +127,43 @@ def stem_words(words):
     return list_words
 
 
-def lem_verbs(words):
+def lemmatize_verbs(words):
     """Lemmatize verbs from a list of tokenized words"""
     lemmatizer = WordNetLemmatizer()
     new_words = []
     for word in words:
         new_word = lemmatizer.lemmatize(word, pos='v')
-        #print(new_word)
+        # print(new_word)
         new_words.append(new_word)
-        #print(new_words)
-        #print(lemmatizer.lemmatize("cats"))
+        # print(new_words)
+        # print(lemmatizer.lemmatize("cats"))
     return new_words
 
 
+def normalization(words):
+    words = decode_non_ascii(words)
+    words = array_to_lowercase(words)
+    words = remove_punctuation(words)
+    words = remove_stopwords(words)
+    words = stem_words(words)
+    words = lemmatize_verbs(words)
+    return words
+
+
+""" This function will be used while calling the algorithm """
+
+
+def spell_correct(string):
+    # words = string.split(" ")
+    words = word_tokenize(string)
+    correctWords = []
+    for i in words:
+        correctWords.append(spell(i))
+    return " ".join(correctWords)
+
+# aa = spell_correct("")
+# print(aa)
 # aa = stem_words(['worked', 'played', 'running'])
 # print(aa)
-
 # p = decode_non_ascii(['ÈÀ', 'Æ', 'À'])
 # print(p)

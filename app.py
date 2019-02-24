@@ -77,6 +77,7 @@ def admin_login():
     if request.method == 'POST':
         _username = request.form['_username']
         _password = request.form['_password']
+        # user = User.get(_username)
 
         # Open database connection
         db = MySQLdb.connect("localhost", "root", "123456789", "ACVAS")
