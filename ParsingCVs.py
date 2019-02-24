@@ -1,8 +1,8 @@
 import re
 import unicodedata
-
 import PyPDF2
 import textract
+
 from autocorrect import spell
 from nltk import word_tokenize
 from nltk.corpus import stopwords
@@ -69,8 +69,11 @@ def parse_cvs():
                 print(e)
     print("All CVs has been parsed successfully!")
 
-    # TODO: Word Tokenizing then Normalizing then Re-pack...
-
+    for i, j in enumerate(parsedCVs):
+        parsedCVs[i] = word_tokenize(j)
+        parsedCVs[i] = normalization(parsedCVs[j])
+        parsedCVs[i] = " ".join(j)
+    print("All CVs has been normalized successfully!")
 
     # print(parsedCVs)
     return parsedCVs
@@ -80,8 +83,6 @@ def parse_cvs():
 def decode_unicode_chars(words):
     return unicodedata.normalize('NFD', words).encode('ascii', 'ignore')
 """
-
-
 def decode_non_ascii(words):
     """Decode non-ASCII characters from a list of tokenized words"""
     new_words = []
@@ -151,8 +152,6 @@ def normalization(words):
 
 
 """ This function will be used while calling the algorithm """
-
-
 def spell_correct(string):
     # words = string.split(" ")
     words = word_tokenize(string)
