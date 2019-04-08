@@ -1,8 +1,9 @@
 import os
 import warnings
+# import MySQLdb
 
-import MySQLdb
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from pymongo import MongoClient
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify, json
 from werkzeug.utils import secure_filename
 
 warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
@@ -11,8 +12,8 @@ import IndexFunctions
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'CVs/'
-app.secret_key = 'super secret key'  # I still don't know the actual usage of the Secret Key
 
+app.secret_key = 'super secret key'  # I still don't know the actual usage of the Secret Key
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -43,18 +44,36 @@ def index():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             _cv = filename
 
+            client = MongoClient('mongodb://localhost:27017/')
+            db = client['ACVAS']
+            # applicants = db['Applicants']
+            db['Applicants'].insert_one({
+                'FName': _fname,
+                'LName': _lname,
+                'Email': _email,
+                'Country': _country,
+                'Phone': _phone,
+                'Birthdate': _birthdate,
+                'CV': _cv,
+                'CV_parsed': False
+            })
+            # applicant_id = applicants.insert_one(applicant).inserted_id
+            # applicant_id
+            # print('done to mongo..')
+
             # Open database connection
-            db = MySQLdb.connect("localhost", "root", "123456789", "ACVAS")
+            # db = MySQLdb.connect("localhost", "root", "123456789", "ACVAS")
             # prepare a cursor object using cursor() method
-            cursor = db.cursor()
+            # cursor = db.cursor()
             # execute the cursor
-            cursor.execute("""\
-            INSERT INTO applicants(FName, LName, Email, Country, Phone, Birthdate, CV)
-            VALUES (%s, %s, %s, %s, %s, %s, %s) """, (_fname, _lname, _email, _country, _phone, _birthdate, _cv))
+
+            # cursor.execute("""\
+            # INSERT INTO applicants(FName, LName, Email, Country, Phone, Birthdate, CV)
+            # VALUES (%s, %s, %s, %s, %s, %s, %s) """, (_fname, _lname, _email, _country, _phone, _birthdate, _cv))
             # commit
-            db.commit()
+            # db.commit()
             # disconnect from server
-            db.close()
+            # db.close()
 
             return redirect(url_for('done_upload'))
     return render_template('index.html')
@@ -79,13 +98,21 @@ def admin_login():
         _password = request.form['_password']
         # user = User.get(_username)
 
+        client = MongoClient('mongodb://localhost:27017/')
+        db = client['ACVAS']
+        data = db['admins'].find_one({
+            'Username': _username,
+            'Password': _password
+        })
+
         # Open database connection
-        db = MySQLdb.connect("localhost", "root", "123456789", "ACVAS")
+        # db = MySQLdb.connect("localhost", "root", "123456789", "ACVAS")
         # prepare a cursor object using cursor() method
-        cursor = db.cursor()
+        # cursor = db.cursor()
         # execute the cursor
-        cursor.execute("SELECT * from admin where Username='" + _username + "' and Password='" + _password + "'")
-        data = cursor.fetchone()
+        # cursor.execute("SELECT * from admin where Username='" + _username + "' and Password='" + _password + "'")
+        # data = cursor.fetchone()
+
         # print(data)
         if data is None:
             # print("Username or Password is wrong")
@@ -93,7 +120,7 @@ def admin_login():
         else:
             # print(data[0])  # This goes for Username
             # print(data[1])  # This goes for Password
-            admin_login.currentUser = str(data[0])
+            admin_login.currentUser = data['Username']
             # print(admin_login.currentUser)
             session['_username'] = _username
             # session['logged_in'] = True

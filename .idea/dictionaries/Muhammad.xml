@@ -5,6 +5,7 @@
       <w>barchart</w>
       <w>birthdate</w>
       <w>darkblue</w>
+      <w>dbname</w>
       <w>dcjq</w>
       <w>dmbox</w>
       <w>docx</w>
@@ -17,14 +18,20 @@
       <w>goright</w>
       <w>icheckbox</w>
       <w>instagram</w>
+      <w>lemmatize</w>
+      <w>lemmatizer</w>
       <w>lname</w>
+      <w>mongo</w>
+      <w>nltk</w>
       <w>servicetitle</w>
       <w>showback</w>
       <w>soptify</w>
       <w>spotify</w>
+      <w>stemmer</w>
       <w>terques</w>
       <w>textarea</w>
       <w>todolist</w>
+      <w>tokenized</w>
       <w>topnav</w>
       <w>ullist</w>
       <w>xchart</w>

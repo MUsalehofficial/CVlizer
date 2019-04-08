@@ -35,6 +35,7 @@
         <list>
           <option value="E722" />
           <option value="E402" />
+          <option value="E302" />
         </list>
       </option>
     </inspection_tool>
@@ -49,6 +50,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="ParsingCVs.*" />
+          <option value="MongoDB.flask_pymongo" />
         </list>
       </option>
     </inspection_tool>

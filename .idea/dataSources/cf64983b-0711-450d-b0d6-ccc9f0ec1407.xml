@@ -914,65 +914,105 @@
     </collation>
     <table id="229" parent="2" name="admin"/>
     <table id="230" parent="2" name="applicants"/>
-    <column id="231" parent="229" name="Username">
+    <table id="231" parent="2" name="cv_content"/>
+    <table id="232" parent="2" name="cv_content_normalized"/>
+    <column id="233" parent="229" name="Username">
       <Position>1</Position>
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="232" parent="229" name="Password">
+    <column id="234" parent="229" name="Password">
       <Position>2</Position>
       <DataType>varchar(25)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="233" parent="229" name="PRIMARY">
+    <key id="235" parent="229" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Username</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="234" parent="230" name="ID">
+    <column id="236" parent="230" name="ID">
       <Position>1</Position>
       <DataType>smallint(6)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="235" parent="230" name="FName">
+    <column id="237" parent="230" name="FName">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="236" parent="230" name="LName">
+    <column id="238" parent="230" name="LName">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="237" parent="230" name="Email">
+    <column id="239" parent="230" name="Email">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="238" parent="230" name="Country">
+    <column id="240" parent="230" name="Country">
       <Position>5</Position>
       <DataType>varchar(110)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="239" parent="230" name="Phone">
+    <column id="241" parent="230" name="Phone">
       <Position>6</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="240" parent="230" name="Birthdate">
+    <column id="242" parent="230" name="Birthdate">
       <Position>7</Position>
       <DataType>mediumtext|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="241" parent="230" name="CV">
+    <column id="243" parent="230" name="CV">
       <Position>8</Position>
       <DataType>mediumtext|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="242" parent="230" name="PRIMARY">
+    <column id="244" parent="230" name="Is_Parsed">
+      <Position>9</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="245" parent="230" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="246" parent="231" name="ID">
+      <Position>1</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="247" parent="231" name="Content">
+      <Position>2</Position>
+      <DataType>mediumtext|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="248" parent="231" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="249" parent="232" name="ID">
+      <Position>1</Position>
+      <DataType>smallint(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="250" parent="232" name="Content">
+      <Position>2</Position>
+      <DataType>mediumtext|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="251" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
