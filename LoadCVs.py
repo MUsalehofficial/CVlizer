@@ -1,7 +1,7 @@
 import glob
 import os
 
-os.chdir('./CVs')
+# os.chdir('./CVs')
 
 
 def load_cvs():

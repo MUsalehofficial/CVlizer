@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel='stylesheet prefetch' href='.././static/font.css'>
-    <link href=".././static/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href=".././static/style.css">
+    <link rel="stylesheet prefetch" href="../../static/font.css">
+    <link href="../../static/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="../../static/style.css">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src=".././static/jquery.min.js"></script>
-    <script src=".././static/bootstrap.min.js"></script>
+    <script src="../../static/jquery.min.js"></script>
+    <script src="../../static/bootstrap.min.js"></script>
 
     <title>Admin Dashboard</title>
     <style>
@@ -120,6 +120,22 @@
     	z-index: 2;
     }
 }
+        table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #050a05;
+  color: white;
+}
     </style>
 </head>
 <body style="background: #eaeaea;">
@@ -129,42 +145,35 @@
     </div>
 {% else %}
     <div class="topnav">
-        <a href="../Admin/Dashboard" class="logo"><b>A<span>CV</span>AS</b></a>
+        <a href="../Dashboard" class="logo"><b>A<span>CV</span>AS</b></a>
         <a style="float: right!important;" href="{{ url_for('admin_logout') }} ">Log out</a>
         <strong style="float: right!important; color: #f2f2f2; font-size: 17px; padding-top: 14px;">Welcome, {{ loggedInUser }}!</strong>
     </div>
         <!-- Side navigation -->
          <div class="sidenav">
-          <a cass="active" href="Dashboard">Dashboard</a>
-          <a href="Dashboard/Applicants">Applicants</a>
-          <a href="Dashboard/CVs">CVs</a>
-          <a href="Dashboard/Search">Search Job</a>
+          <a href="../Dashboard">Dashboard</a>
+          <a href="../Dashboard/Applicants">Applicants</a>
+          <a href="../Dashboard/CVs">CVs</a>
+          <a href="../Dashboard/Search">Search Job</a>
         </div>
     <br>
     <div class="main">
-        <div class="row mt" style="margin-right: 0px;">
-            <div class="card text-white bg-dark" style="max-width: 20rem;margin-left: 60px;height: 220px;width: 200px;">
-              <div class="card-header"><center>Total Applicants</center></div>
-              <div class="card-body">
-                <h5 style="font-size: 80px;" class="card-title"><center>{{ totalApplicants }}</center></h5>
-              </div>
+    <!-- action="/Admin/Dashboard/Search/Results" -->
+    <form method="post" enctype=multipart/form-data>
+        <div class="form-group shadow-textarea">
+            <textarea style="width: 90%; margin: 0 auto;"
+                      class="form-control z-depth-1"
+                      id="_jobDescription"
+                      name="_jobDescription"
+                      rows="10"
+                      placeholder="Job Description"></textarea>
+            <div style="text-align: center;">
+                <div style="margin-top: 5px;">
+                    <input name="submit" id="_submit" class="btn btn-md btn-success" value="Submit" type="submit"/>
+                </div>
             </div>
-            <!-- /col-md-4-->
-           <div class="card text-white bg-dark" style="max-width: 20rem;margin-left: 60px;height: 220px;width: 200px;">
-              <div class="card-header"><center>Parsed CVs</center></div>
-              <div class="card-body">
-                <h5 style="font-size: 80px;" class="card-title"><center>{{ totalParsedCVs }}</center></h5>
-              </div>
-            </div>
-            <!-- /col-md-4 -->
-          <div class="card text-white bg-dark" style="max-width: 20rem;margin-left: 60px;height: 220px;width: 200px;">
-              <div class="card-header"><center>Not Parsed CVs</center></div>
-              <div class="card-body">
-                <h5 style="font-size: 80px;" class="card-title"><center>{{ totalUnParsedCVs }}</center></h5>
-              </div>
-            </div>
-            <!-- /col-md-4 -->
         </div>
+    </form>
 
 
     </div>

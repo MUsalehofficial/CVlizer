@@ -10,6 +10,7 @@
       <w>dmbox</w>
       <w>docx</w>
       <w>dropdown</w>
+      <w>favicons</w>
       <w>flot</w>
       <w>fname</w>
       <w>fontawesome</w>
@@ -34,7 +35,10 @@
       <w>tokenized</w>
       <w>topnav</w>
       <w>ullist</w>
+      <w>vectorizer</w>
+      <w>vectorizing</w>
       <w>xchart</w>
+      <w>zabuto</w>
     </words>
   </dictionary>
 </component>
