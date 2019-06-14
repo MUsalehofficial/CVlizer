@@ -1,7 +1,10 @@
 import glob
 import os
 
-# os.chdir('./CVs')
+
+# TODO: Please check this error there, when you comment this it works well in parsing
+# TODO: but in sending application it throws an error!!!
+os.chdir('./CVs')
 
 
 def load_cvs():

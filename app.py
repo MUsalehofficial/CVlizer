@@ -1,6 +1,7 @@
 import os
 import warnings
 # import MySQLdb
+import datetime
 
 from pymongo import MongoClient
 from flask import Flask, render_template, request, flash, redirect, url_for, session, send_from_directory
@@ -18,8 +19,17 @@ app.secret_key = 'super secret key'  # I still don't know the actual usage of th
 client = MongoClient('mongodb://localhost:27017/')
 db = client['ACVAS']
 
-@app.route('/', methods=['GET', 'POST'])
+
+@app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/About')
+def about():
+    return render_template('about.html')
+
+@app.route('/ApplicationForm', methods=['GET', 'POST'])
+def application_form():
     if request.method == 'POST':
         # Adding each value of text-boxes in the registration page into variables
         _fname = request.form['_fname']
@@ -28,6 +38,7 @@ def index():
         _country = request.form['_country']
         _phone = request.form['_phone']
         _birthdate = request.form['_birthdate']
+        _gender = request.form['_gender']
 
         # check if the post request has the file part
         if '_cv' not in request.files:
@@ -56,8 +67,10 @@ def index():
                 'Email': _email,
                 'Country': _country,
                 'Phone': _phone,
+                'Gender': _gender,
                 'Birthdate': _birthdate,
                 'CV': _cv,
+                'Time': str(datetime.datetime.now()),
                 'CV_parsed': False
             })
             # applicant_id = applicants.insert_one(applicant).inserted_id
@@ -79,7 +92,7 @@ def index():
             # db.close()
             # index.fName = _fname
             return redirect(url_for('done_upload'))
-    return render_template('index.html')
+    return render_template('ApplicationForm.html')
 
 
 @app.route('/done')

@@ -114,7 +114,7 @@ def parse_cvs():
     db = client['ACVAS']
     for no, i in enumerate(LoadCVs.load_cvs()):
         orderedCVs.append(i)
-        print(orderedCVs)
+        # print(orderedCVs)
         Temp = i.split(".")
         # print(no, i)
         applicant = db['Applicants'].find_one({

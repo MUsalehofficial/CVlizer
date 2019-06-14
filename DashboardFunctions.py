@@ -1,16 +1,20 @@
 from gensim.summarization import summarize
 from pymongo import MongoClient
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors import NearestNeighbors, KNeighborsClassifier
 
-import ParseCVs
+# import ParseCVs
 
 
-def start():
+# def start():
     # LoadCVs.loading_cvs()  # Start loading CVs names from their specific location
-    ParseCVs.parse_cvs()  # Start parsing each CV
+#     ParseCVs.parse_cvs()  # Start parsing each CV
 
 # start()
+dbClient = MongoClient('mongodb://localhost:27017/')
+db = dbClient['ACVAS']
+CVs = db['CV_Content_Normalized']
+Vectorizer = TfidfVectorizer(stop_words='english')
 
 
 def ranking_cvs(jobDescription):
@@ -18,11 +22,7 @@ def ranking_cvs(jobDescription):
     cvsVectorArray = []
     cvsScore = []
 
-    Vectorizer = TfidfVectorizer(stop_words='english')
 
-    dbClient = MongoClient('mongodb://localhost:27017/')
-    db = dbClient['ACVAS']
-    CVs = db['CV_Content_Normalized']
 
     result = []
 
@@ -67,7 +67,7 @@ def ranking_cvs(jobDescription):
 
             cvsVectorArray.append(cvVector.toarray())
         except:
-            print('Something went wrong while vectorizing CVs, but it will continue.')
+            print('Something went wrong while vectorizing CVs, but I will continue.')
             pass
 
     # print(cvsVectorArray)
@@ -79,12 +79,18 @@ def ranking_cvs(jobDescription):
         # print(nNeighbors)
         # NearestNeighbors(algorithm='auto', leaf_size=30)  # These attributes set by default
         cvsScore.extend(nNeighbors.kneighbors(jobDescriptionVectorArray)[0][0].tolist())
-    print(cvsScore)
-
+    # print(cvsScore)
     # print(cvNames)
+
     cvNameScore = [x for _, x in sorted(zip(cvsScore, cvsNames))]
     cvNameScore.reverse()
+
+
+
+
+
     # print(Z)
+    """
     for r, n in enumerate(cvNameScore):
         cvRank = r + 1
         cvName = fix_file_path(n)
@@ -93,9 +99,70 @@ def ranking_cvs(jobDescription):
         resultElement = ResultElement(cvRank, cvName)
         result.append(resultElement)
         print(f"Rank{resultElement.rank} :\t {resultElement.filename}")
+    """
+    # print(Z)
+
+
+    cvsNamesTop5 = []
+    for r, n in enumerate(cvNameScore):
+        cvsNamesTop5.append(n)
+    cvsNamesTop5 = cvsNamesTop5[:5]
+    # top5_ranking(cvsNamesTop5, jobDescriptionVectorArray)
+
+    # return result
+    return top5_ranking(cvsNamesTop5, jobDescriptionVectorArray)
+
+
+def top5_ranking(top5CVs, jobDescriptionVectorArray):
+    cvsVectorArrayTop5 = []
+    cvsScoreTop5 = []
+    # cvsNamesTop5 = []
+    result = []
+    # Cursor = CVs.find()
+    # print(top5CVs[1])
+    for i in range(5):
+        cursor = CVs.find_one({'CV_Filename': top5CVs[i]})
+        cv = str(cursor['CV_Content_Normalized'])
+        # noinspection PyBroadException
+        try:
+            cvText = [cv]
+            cvVector = Vectorizer.transform(cvText)
+            cvsVectorArrayTop5.append(cvVector.toarray())
+        except:
+            print('Something went wrong while vectorizing CVs, but I will continue.')
+            pass
+    """
+    for i in Cursor:
+        if i['CV_Filename'] == top5CVs[j]:
+            # top5CVs.append(i['CV_Filename'])
+            cv = str(i['CV_Content_Normalized'])
+            # noinspection PyBroadException
+            try:
+                cvText = [cv]
+                cvVector = Vectorizer.transform(cvText)
+                cvsVectorArrayTop5.append(cvVector.toarray())
+            except:
+                print('Something went wrong while vectorizing CVs, but I will continue.')
+                pass
+    """
+    for i in cvsVectorArrayTop5:
+        nNeighbors = NearestNeighbors(n_neighbors=1)
+        nNeighbors.fit(i)
+        cvsScoreTop5.extend(nNeighbors.kneighbors(jobDescriptionVectorArray)[0][0].tolist())
+
+    cvNameScoreTop5 = [x for _, x in sorted(zip(cvsScoreTop5, top5CVs))]
+    cvNameScoreTop5.reverse()
+
+    for r, n in enumerate(cvNameScoreTop5):
+        cvRank = r + 1
+        cvName = fix_file_path(n)
+        # print(cvName)
+        # print(cvRank)
+        resultElementTop5 = ResultElement(cvRank, cvName)
+        result.append(resultElementTop5)
+        print(f"Rankkk{resultElementTop5.rank} :\t {resultElementTop5.filename}")
 
     return result
-
 
 def fix_file_path(loc):
     temp = str(loc)
@@ -109,9 +176,49 @@ class ResultElement:
 
 
 
-#job = """IT technicians diagnose computer problems, monitor computer processing systems, install software and perform tests on computer equipment and programs. Technicians may also set up computer equipment, schedule maintenance and  teach clients to use programs. Other job duties can include minor repairs and computer parts ordering. IT technicians need strong knowledge of computers and how they operate, which includes having a broad understanding of hardware and software, operating systems and basic computer programming. Familiarity with electronic equipment,  Internet applications and security may also be required. Technicians may also need good communication skills because this position requires frequent interaction with clients. Certification While not all companies require IT technicians to be certified, taking the extra step to earn a certification can show employers that technicians have the required skills and training to fulfill job requirements. Common certifications for IT technicians include A+ and Linux+ certifications offered by CompTIA. IT technicians can also pursue Microsoft Certified IT Professional and Cisco Certified Network Associate credentials. The International Information Systems Security Certification Consortium offers a variety of certifications for IT professionals pursuing information security positions. The certification process may include passing an exam and completing continuing education courses to maintain or renew credentials."""
+job = """
+Assistant Manager - Finance
+HONG KONG
+________________________________________
+Due to continued expansion across the group, we are recruiting for an Assistant Manager - Finance in our Hong Kong office.
+________________________________________
+Job purpose and overall objective
+To assist the finance team in compliance with company standards, policies and procedures.
+Main or key responsibilities
+•	Supervise accounting team to oversee full set of accounts
+•	Prepare monthly financial reports and management reporting pack with insightful analysis
+•	Prepare balance sheet reconciliations, monitor and take follow up actions for the reconciling items
+•	Monitor day to day cash flow and prepare cash flow forecast
+•	Assist in budgeting and forecasting process
+•	Support system implementation project
+•	Liaise with different external parties such as auditors and banks
+•	Participate in ad hoc projects assigned by senior management
+•	Coordinate with the team on any ad hoc job or project the company has to undertake
+•	Ensure compliance with company standards, policies and procedures
+Essential experience and qualifications
+•	Degree in accounting or related discipline 
+•	HKICPA member or equivalent
+•	Good experience of handling accounting entries and preparing a full set of accounts
+•	At least five years’ experience in accounting preferably gained in a MNC, of which two years managing junior staff
+•	Proficient in Microsoft Office (especially Word and Excel)
+Desirable experience and qualifications
+•	Knowledge in Microsoft Dynamics Navision would be an advantage
+Personable attributes
+•	Strong command of English (both verbal and written)
+•	Able to meet deadlines and drive the team’s performance
+•	Good team player who wants to work in an international environment
+•	Assertive, approachable individual who can work under pressure
+•	A self-motivated individual with a strong desire to deliver the best for the business
+•	Possess excellent interpersonal skills
+•	Be able to work proactively and collaboratively - as part of a team and individually
+•	Be achievement focused whilst maintaining brand and business values
+•	Possess a willingness to learn and share knowledge and skills with the business
+•	Be proactive and enthusiastic and have excellent organisational skills and a methodical approach to dealing with a wide range of tasks
 
-#print(ranking_cvs(job))
+
+"""
+
+# ranking_cvs(job)
 
 #for r in flask_return:
 #    print(r.rank)
